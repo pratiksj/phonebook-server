@@ -20,7 +20,7 @@ const url = `mongodb+srv://pratiksha:${password}@cluster0.cnk2vze.mongodb.net/Ph
 
 
 mongoose
-.connect(url)
+.connect(url)//yo promise hooo promise resolve vayepachi 
 .then((result) => {
     console.log('connected')
 
