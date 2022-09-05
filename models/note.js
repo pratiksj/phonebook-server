@@ -15,8 +15,7 @@ mongoose.connect(url)
 
 const noteSchema = new mongoose.Schema({
   content: String,
-  date: Date,
-  important: Boolean,
+  number: String
 })
 
 // noteSchema.set('toJSON', {
@@ -27,4 +26,4 @@ const noteSchema = new mongoose.Schema({
 //   }
 // })
 
-module.exports = mongoose.model('Note', noteSchema)
+module.exports = mongoose.model('Person', noteSchema)
