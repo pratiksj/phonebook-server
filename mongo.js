@@ -4,6 +4,7 @@ if (process.argv.length < 3) {
   console.log('Please provide the password as an argument: node mongo.js <password>')
   process.exit(1)
 }
+console.log(process.env.MONGO)
 
 const password = process.argv[2]
 const noteSchema = new mongoose.Schema({
