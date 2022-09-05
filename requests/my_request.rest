@@ -2,7 +2,7 @@ GET http://localhost:3001/persons/
 
 ###
 
-DELETE  http://localhost:3001/persons/
+DELETE  http://localhost:3001/persons/63162503937b72b5a64d6a07
 
 ###
 POST http://localhost:3001/persons/
