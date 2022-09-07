@@ -14,8 +14,31 @@ mongoose.connect(url)
   })
 
 const noteSchema = new mongoose.Schema({
-  name: String,
-  number: String
+  name: {
+    type: String,
+    minLength: 5,
+    required: true
+  },
+  number:{
+    type: String,
+    validate: {
+        validator: function(v) {
+//console.log(v)
+            let splitedNum = v.split("-")
+            console.log(splitedNum)
+            if(splitedNum.length===1&& v.length>=8){
+        return true
+            } else if (splitedNum[0].length===2||splitedNum[0].length===3){
+                return true 
+            } else {return false}
+          
+        },
+        message: props => `${props.value} is not a valid phone number!`
+      },
+  }
+    
+    
+   //String
 })
 
 noteSchema.set('toJSON', {

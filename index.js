@@ -101,12 +101,15 @@ App.delete('/persons/:id', (request, response, next) => {
 //   return response.status(201).json(newData);
 // });
 
-App.post('/persons/', (request, response) => {
+App.post('/persons/', (request, response,next) => {
   const body = request.body
-
-  if (body.name === undefined) {
-    return response.status(400).json({ error: 'content missing' })
-  }
+  //let newPerson = Person.find((person) => person.name === body.name);
+if(body.name===""||!body.hasOwnProperty("name")){
+  return response.status(400).json({error:"Missing propery"})
+}else{
+  // if (body.name === "") {
+  //   return response.status(400).json({ error: 'content missing' })
+  // }
 
   const note = new Person({
     name: body.name,
@@ -115,8 +118,8 @@ App.post('/persons/', (request, response) => {
 
   note.save().then(savedNote => {
     response.json(savedNote)
-  })
-})
+  }).catch(error => next(error))
+  }})
 
 App.put('/persons/:id', (request, response, next) => {
   const body = request.body
@@ -138,7 +141,10 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
+  } else if (error.name === 'ValidationError') {
+    console.log("validation error")
+    return response.status(400).json({ error: error.message })
+  }
 
   next(error)
 }
