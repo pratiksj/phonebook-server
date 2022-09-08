@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const Person = require("./models/note")
+const Person = require("./models/note");
 const { response } = require("express");
 const morgan = require("morgan");
 
@@ -26,7 +26,6 @@ App.use(
   })
 );
 
-
 App.get("/", (request, response) => {
   response.send("<h1>hellow world Niru</h1> "); // response.send response ko method of
 });
@@ -39,25 +38,25 @@ App.get("/", (request, response) => {
 // });
 
 App.get("/persons", (request, response) => {
-Person.find().then(result=>response.json(result))
+  Person.find().then((result) => response.json(result));
   //response.json(persons); // response.send response ko method of
 });
 
 App.get("/persons/:id", (request, response) => {
   Person.findById(request.params.id)
-    .then(note => {
+    .then((note) => {
       if (note) {
-        response.json(note)
+        response.json(note);
       } else {
-        response.status(404).end()
+        response.status(404).end();
       }
     })
-    .catch(error => {
-      console.log(error)
-      next(error)
+    .catch((error) => {
+      console.log(error);
+      next(error);
       //response.status(500).end()
       //response.status(400).send({ error: 'malformatted id' })
-    })
+    });
   // const currendId = Number(request.params.id);
   // const thisNote = Person.find((person) => person.id === currendId);
   // if (thisNote) response.json(thisNote); // response.send response ko method of
@@ -67,13 +66,13 @@ App.get("/persons/:id", (request, response) => {
   //     .json({ error: 404, message: `There is no person with id ${currendId}` });
 });
 
-App.delete('/persons/:id', (request, response, next) => {
+App.delete("/persons/:id", (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
-    .then(result => {
-      response.status(204).end()
+    .then((result) => {
+      response.status(204).end();
     })
-    .catch(error => next(error))
-})
+    .catch((error) => next(error));
+});
 // App.delete("/persons/:id", (request, response) => {
 //   const currendId = Number(request.params.id);
 //   Person = Person.filter((person) => person.id !== currendId);
@@ -101,62 +100,63 @@ App.delete('/persons/:id', (request, response, next) => {
 //   return response.status(201).json(newData);
 // });
 
-App.post('/persons/', (request, response,next) => {
-  const body = request.body
+App.post("/persons/", (request, response, next) => {
+  const body = request.body;
   //let newPerson = Person.find((person) => person.name === body.name);
-if(body.name===""||!body.hasOwnProperty("name")){
-  return response.status(400).json({error:"Missing Property"})
-}else{
-console.log(body.name.length<10)
-  // if (body.name.length < 10) {
-  //   return response.status(400).json({ error: 'Minimum length should be 10' })
-  // }
-  // else{
-    console.log('added')
+  if (body.name === "") {
+    //|| !body.hasOwnProperty("name")
+    return response.status(400).json({ error: "Missing Property" });
+  } else {
+    //console.log(body.name.length<10)
+    // if (body.name.length < 10) {
+    //   return response.status(400).json({ error: 'Minimum length should be 10' })
+    // }
+    // else{
+    //console.log('added')
     const note = new Person({
       name: body.name,
-      number: body.number
-    })
-  
-    note.save().then(savedNote => {
-      response.json(savedNote)
-    }).catch(error => next(error))
-    
+      number: body.number,
+    });
+
+    note
+      .save()
+      .then((savedNote) => {
+        response.json(savedNote);
+      })
+      .catch((error) => next(error));
   }
+});
 
-  
-  })
-
-App.put('/persons/:id', (request, response, next) => {
-  const body = request.body
+App.put("/persons/:id", (request, response, next) => {
+  const body = request.body;
 
   const note = {
     name: body.name,
     number: body.number,
-  }
+  };
 
   Person.findByIdAndUpdate(request.params.id, note, { new: true })
-    .then(updatedNote => {
-      response.json(updatedNote)
+    .then((updatedNote) => {
+      response.json(updatedNote);
     })
-    .catch(error => next(error))
-})
+    .catch((error) => next(error));
+});
 
 const errorHandler = (error, request, response, next) => {
-  console.error(error.message)
+  console.error(error.message);
 
-  if (error.name === 'CastError') {
-    return response.status(400).send({ error: 'malformatted id' })
-  } else if (error.name === 'ValidationError') {
-    console.log("validation error")
-    return response.status(400).json({ error: error.message })
+  if (error.name === "CastError") {
+    return response.status(400).send({ error: "malformatted id" });
+  } else if (error.name === "ValidationError") {
+    console.log("validation error");
+    return response.status(400).json({ error: error.message });
   }
 
-  next(error)
-}
+  next(error);
+};
 
 // this has to be the last loaded middleware.
-App.use(errorHandler)   //error ko middleware
+App.use(errorHandler); //error ko middleware
 
 const PORT = process.env.PORT || "3001";
 
