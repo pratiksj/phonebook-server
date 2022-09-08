@@ -105,7 +105,7 @@ App.post('/persons/', (request, response,next) => {
   const body = request.body
   //let newPerson = Person.find((person) => person.name === body.name);
 if(body.name===""||!body.hasOwnProperty("name")){
-  return response.status(400).json({error:"Missing propery"})
+  return response.status(400).json({error:"Missing Property"})
 }else{
 console.log(body.name.length<10)
   // if (body.name.length < 10) {
