@@ -107,11 +107,12 @@ App.post('/persons/', (request, response,next) => {
 if(body.name===""||!body.hasOwnProperty("name")){
   return response.status(400).json({error:"Missing propery"})
 }else{
-
+console.log(body.name.length<10)
   if (body.name.length < 10) {
     return response.status(400).json({ error: 'Minimum length should be 10' })
   }
   else{
+    console.log('added')
     const note = new Person({
       name: body.name,
       number: body.number
