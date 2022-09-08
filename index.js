@@ -107,18 +107,23 @@ App.post('/persons/', (request, response,next) => {
 if(body.name===""||!body.hasOwnProperty("name")){
   return response.status(400).json({error:"Missing propery"})
 }else{
-  // if (body.name === "") {
-  //   return response.status(400).json({ error: 'content missing' })
-  // }
 
-  const note = new Person({
-    name: body.name,
-    number: body.number
-  })
+  if (body.name.length < 10) {
+    return response.status(400).json({ error: 'Minimum length should be 10' })
+  }
+  else{
+    const note = new Person({
+      name: body.name,
+      number: body.number
+    })
+  
+    note.save().then(savedNote => {
+      response.json(savedNote)
+    }).catch(error => next(error))
+    
+  }
 
-  note.save().then(savedNote => {
-    response.json(savedNote)
-  }).catch(error => next(error))
+  
   }})
 
 App.put('/persons/:id', (request, response, next) => {

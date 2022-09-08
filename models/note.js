@@ -25,7 +25,7 @@ const noteSchema = new mongoose.Schema({
         validator: function(v) {
 //console.log(v)
             let splitedNum = v.split("-")
-            console.log(splitedNum)
+            //console.log(splitedNum)
             if(splitedNum.length===1&& v.length>=8){
         return true
             } else if (splitedNum[0].length===2||splitedNum[0].length===3){
