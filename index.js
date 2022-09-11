@@ -135,7 +135,11 @@ App.put("/persons/:id", (request, response, next) => {
     number: body.number,
   };
 
-  Person.findByIdAndUpdate(request.params.id, note, { new: true })
+  Person.findByIdAndUpdate(request.params.id, note, {
+    new: true,
+    runValidators: true,
+    context: "query",
+  })
     .then((updatedNote) => {
       response.json(updatedNote);
     })
